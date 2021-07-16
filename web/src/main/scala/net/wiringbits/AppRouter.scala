@@ -34,6 +34,7 @@ import typings.reactRouterDom.{components => router}
     val about = route("/about", props.auth)(AboutPage())
     val signIn = route("/signin", props.auth)(SignInPage(props.api, props.loggedIn))
     val signUp = route("/signup", props.auth)(SignUpPage(props.api, props.loggedIn))
+    val userLogs = route("/UserLogs",props.auth)(UserLogsPage())
 
     def dashboard(user: User) = route("/dashboard", props.auth)(DashboardPage(props.api, user))
     val signOut = route("/signout", props.auth) {
@@ -49,10 +50,10 @@ import typings.reactRouterDom.{components => router}
 
     props.auth match {
       case AuthState.Unauthenticated =>
-        router.Switch(home, about, signIn, signUp, catchAllRoute)
+        router.Switch(home, about, signIn, signUp,userLogs, catchAllRoute)
 
       case AuthState.Authenticated(user) =>
-        router.Switch(home, dashboard(user), about, signOut, catchAllRoute)
+        router.Switch(home, dashboard(user), about, signOut,userLogs, catchAllRoute)
     }
   }
 }
